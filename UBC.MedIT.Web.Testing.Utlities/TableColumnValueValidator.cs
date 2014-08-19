@@ -46,14 +46,16 @@ namespace UBC.MedIT.Web.Testing.Utlities
 
         }
 
-        private void Fail(ValidationEventArgs e, string p)
+        private void Fail(ValidationEventArgs e, string message)
         {
-            throw new NotImplementedException();
+            e.IsValid = false;
+            e.Message = message;
         }
 
-        private void ValidateTable(ValidationEventArgs e)
+        private void ValidateTable(ValidationEventArgs e, string message)
         {
-            throw new NotImplementedException();
+            e.IsValid = true;
+            e.Message = message;
         }
 
     }
