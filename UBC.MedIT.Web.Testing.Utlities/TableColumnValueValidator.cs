@@ -58,10 +58,67 @@ namespace UBC.MedIT.Web.Testing.Utlities
             e.Message = message;
         }
 
-        private void ValidateTable(ValidationEventArgs e, string message)
+        private void ValidateTable(ValidationEventArgs e)
         {
-            e.IsValid = true;
-            e.Message = message;
+            var doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(e.Response.BodyString);
+
+            var table = doc.GetElementbyId(TableId);
+
+            if (table == null)
+            {
+                Fail(e, String.Format("Could not locate a table tag named '{0}'!", TableId));
+            }
+            else if (table.Name != "table")
+            {
+                Fail(e, String.Format("Found a tag named '{0}' but it wasn't a table!", TableId));
+            }
+            else
+            {
+                ValidateTable(e, table);
+            }
+        }
+
+        private void ValidateTable(ValidationEventArgs e, HtmlAgilityPack.HtmlNode table)
+        {
+            var columns = table.SelectNodes("//th");
+
+            if (columns == null || columns.Count == 0)
+            {
+                Fail(e, "Could not locate any columns in the table!");
+            }
+            else
+            {
+                int columnIndex = FindColumnIndexByName(columns, ColumnName);
+
+                if (columnIndex == -1)
+                {
+                    Fail(e, String.Format("Could not find a column named '{0}'!", ColumnName));
+                }
+                else
+                {
+                    bool foundTheValue = DoesValueExistInColumn(table, columnIndex, ExpectedValue);
+
+                    if (foundTheValue == true)
+                    {
+                        Pass(e, "Found the column value!");
+                    }
+                    else
+                    {
+                        Fail(e, String.Format("Could not find a cell with the value '{0}'", ExpectedValue));
+                    }
+                }
+            }
+        }
+
+        private bool DoesValueExistInColumn(HtmlAgilityPack.HtmlNode table, int columnIndex, string ExpectedValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        private int FindColumnIndexByName(HtmlAgilityPack.HtmlNodeCollection columns, string ColumnName)
+        {
+            throw new NotImplementedException();
         }
 
     }
