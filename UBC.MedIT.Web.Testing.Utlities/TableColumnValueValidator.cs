@@ -52,6 +52,12 @@ namespace UBC.MedIT.Web.Testing.Utlities
             e.Message = message;
         }
 
+        private void Pass(ValidationEventArgs e, string message)
+        {
+            e.IsValid = true;
+            e.Message = message;
+        }
+
         private void ValidateTable(ValidationEventArgs e, string message)
         {
             e.IsValid = true;
