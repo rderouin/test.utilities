@@ -27,7 +27,34 @@ namespace UBC.MedIT.Web.Testing.Utlities
         
         public override void Validate(object sender, ValidationEventArgs e)
         {
+            if (String.IsNullOrWhiteSpace(TableId) == true)
+            {
+                Fail(e, "Table Id does not have a valid value!");
+            }
+            else if (String.IsNullOrWhiteSpace(ColumnName) == true)
+            {
+                Fail(e, "Column Name does not have a valid value!");
+            }
+            else if (ExpectedValue == null)
+            {
+                Fail(e, "Expected value cannot be null");
+            }
+            else
+            {
+                ValidateTable(e);
+            }
+
+        }
+
+        private void Fail(ValidationEventArgs e, string p)
+        {
             throw new NotImplementedException();
         }
+
+        private void ValidateTable(ValidationEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
